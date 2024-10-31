@@ -24,4 +24,7 @@ extern Switch mySwitch;
 // Function to send a notification to Slack via IFTTT
 void sendNotification();
 
+// Function to connect to WiFi
+void connectToWiFi();
+
 #endif
