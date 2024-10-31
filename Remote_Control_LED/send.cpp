@@ -3,7 +3,7 @@
 
 const char* ssid = "ssid_name";         // Replace with your WiFi SSID
 const char* password = "ssid_password";          // Replace with your WiFi password
-const char* resultsUrl = "https://pratiksha.tech/LED/results.txt"; // URL to results.txt
+const char* resultsUrl = "https://pratiksha.tech/LED/results.txt"; // URL to where your file is hosted on hostinger or any other hosting site
 
 WiFiClientSecure wifiClient;
 
