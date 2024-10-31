@@ -1,8 +1,8 @@
 // send.cpp: Source file for function definitions
 #include "send.h"
 
-const char* ssid = "realme 7 Pro";         // Replace with your WiFi SSID
-const char* password = "tashvi28";          // Replace with your WiFi password
+const char* ssid = "ssid_name";         // Replace with your WiFi SSID
+const char* password = "ssid_password";          // Replace with your WiFi password
 const char* resultsUrl = "https://pratiksha.tech/LED/results.txt"; // URL to results.txt
 
 WiFiClientSecure wifiClient;
