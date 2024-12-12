@@ -1,0 +1,56 @@
+// Define pin assignments
+const int potentiometerPin = A0; // Analog pin for potentiometer
+const int ledPin = D5;           // Digital pin for LED
+const int switchPin = D4;        // Digital pin for switch
+
+int previousPotValue = -1;       // Store previous potentiometer value
+bool lastSwitchState = HIGH;     // Last stable state of the switch
+
+void setup() {
+  Serial.begin(115200);          // Initialize serial communication
+  pinMode(ledPin, OUTPUT);       // Set LED pin as output
+  pinMode(switchPin, INPUT_PULLUP); // Set switch pin as input with pull-up resistor
+}
+
+void loop() {
+  // Read potentiometer value
+  int potValue = analogRead(potentiometerPin);
+
+  // Check if the value has changed significantly (threshold)
+  if (abs(potValue - previousPotValue) > 10) { // Adjust threshold as needed
+    previousPotValue = potValue;
+    float voltage = (potValue / 1023.0) * 3.3; // Convert to voltage assuming 3.3V ADC reference
+
+    // Display potentiometer value
+    Serial.print("Potentiometer Value: ");
+    Serial.print(potValue); // Raw value
+    Serial.print(" | Voltage: ");
+    Serial.print(voltage, 2); // Voltage with 2 decimal places
+    Serial.println(" V");
+  }
+
+  // Read the current state of the switch
+  bool currentSwitchState = digitalRead(switchPin);
+
+  // Check if the switch is pressed
+  if (currentSwitchState == LOW && lastSwitchState == HIGH) {
+    Serial.println("Switch Pressed: 1");
+  }
+
+  // Update the last switch state
+  lastSwitchState = currentSwitchState;
+
+  // Control LED based on serial input
+  if (Serial.available()) {
+    char command = Serial.read();
+    if (command == '1') {
+      digitalWrite(ledPin, HIGH); // Turn on LED
+      Serial.println("LED ON");
+    } else if (command == '0') {
+      digitalWrite(ledPin, LOW); // Turn off LED
+      Serial.println("LED OFF");
+    }
+  }
+
+  delay(10); // Small delay for stability
+}
