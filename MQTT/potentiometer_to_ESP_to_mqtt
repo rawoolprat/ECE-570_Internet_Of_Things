@@ -1,0 +1,95 @@
+#include <ESP8266WiFi.h>
+#include <WiFiClientSecure.h>
+#include <PubSubClient.h>
+
+// WiFi credentials
+const char* ssid = "realme 7 Pro";          // Replace with your WiFi SSID
+const char* password = "tashvi28";  // Replace with your WiFi password
+
+// HiveMQ MQTT broker details
+const char* mqttServer = "1bd4a0df136c4f1592d4e1c2b9963a12.s1.eu.hivemq.cloud";
+const int mqttPort = 8883;               // Secure TLS/SSL port
+const char* mqttUser = "rawprat";        // HiveMQ username
+const char* mqttPassword = "Frozen8642"; // HiveMQ password
+const char* mqttTopic = "testtopic/temp/outTopic/potvalue";    // Topic to publish to
+
+WiFiClientSecure espClient;
+PubSubClient client(espClient);
+
+// Pin assignments
+const int potentiometerPin = A0; // Analog pin for potentiometer
+
+int previousPotValue = -1; // Store previous potentiometer value
+
+void setup() {
+  Serial.begin(115200);
+
+  // Connect to WiFi
+  Serial.print("Connecting to WiFi...");
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected.");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+
+  // Configure MQTT
+  espClient.setInsecure(); // Disable certificate validation for simplicity
+  client.setServer(mqttServer, mqttPort);
+
+  // Connect to MQTT broker
+  Serial.print("Connecting to MQTT broker...");
+  if (client.connect("ESP8266TestClient", mqttUser, mqttPassword)) {
+    Serial.println(" Connected!");
+  } else {
+    Serial.print(" Failed to connect to MQTT broker. Error code: ");
+    Serial.println(client.state());
+  }
+}
+
+void loop() {
+  // Ensure the MQTT connection remains active
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+
+  // Read potentiometer value
+  int potValue = analogRead(potentiometerPin);
+
+  // Check if the value has changed significantly (threshold)
+  if (abs(potValue - previousPotValue) > 10) { // Adjust threshold as needed
+    previousPotValue = potValue;
+
+    // Convert raw ADC value to voltage
+    float voltage = (potValue / 1023.0) * 3.3;
+
+    // Create MQTT message with the voltage
+    char message[50];
+    snprintf(message, sizeof(message), "Potentiometer Voltage: %.2f V", voltage);
+
+    // Publish the voltage to MQTT and print it to Serial Monitor
+    if (client.publish(mqttTopic, message)) {
+      Serial.println(message); // Print only the MQTT message
+    } else {
+      Serial.println("Failed to publish to MQTT.");
+    }
+  }
+
+  delay(10); // Small delay for stability
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Reconnecting to MQTT broker...");
+    if (client.connect("ESP8266TestClient", mqttUser, mqttPassword)) {
+      Serial.println(" Reconnected!");
+    } else {
+      Serial.print(" Failed. rc=");
+      Serial.println(client.state());
+      delay(5000);
+    }
+  }
+}
