@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";  // Replace with your database IP
-$user = "u411807168_pratiksha";    // Replace with your username
-$password = "Biotin@282019"; // Replace with your password
-$database = "u411807168_IOT"; // Replace with your database name
+$host = "xyz";  // Replace with your database IP
+$user = "xyz";    // Replace with your username
+$password = "xyz"; // Replace with your password
+$database = "xyz"; // Replace with your database name
 
 $conn = new mysqli($host, $user, $password, $database);
 if ($conn->connect_error) {
