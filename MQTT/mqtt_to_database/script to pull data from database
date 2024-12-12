@@ -1,0 +1,30 @@
+<?php
+$host = "localhost";  // Replace with your database IP
+$user = "u411807168_pratiksha";    // Replace with your username
+$password = "Biotin@282019"; // Replace with your password
+$database = "u411807168_IOT"; // Replace with your database name
+
+$conn = new mysqli($host, $user, $password, $database);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch the latest 15 values from the table
+$sql = "SELECT value, timestamp FROM sensor_value ORDER BY timestamp DESC LIMIT 15";
+$result = $conn->query($sql);
+
+$data = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+}
+
+// Reverse the order so the newest value appears at the end
+$data = array_reverse($data);
+
+header('Content-Type: application/json');
+echo json_encode($data);
+
+$conn->close();
+?>
