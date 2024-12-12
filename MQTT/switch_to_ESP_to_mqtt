@@ -2,15 +2,15 @@
 #include <PubSubClient.h>
 
 // WiFi credentials
-const char* ssid = "realme 7 Pro";          // Replace with your WiFi SSID
-const char* password = "tashvi28";  // Replace with your WiFi password
+const char* ssid = "xyz";          // Replace with your WiFi SSID
+const char* password = "xyz";  // Replace with your WiFi password
 
 // MQTT broker details
-const char* mqttServer = "1bd4a0df136c4f1592d4e1c2b9963a12.s1.eu.hivemq.cloud";
-const int mqttPort = 8883;               // Secure TLS/SSL port
-const char* mqttUser = "rawprat";        // HiveMQ username
-const char* mqttPassword = "Frozen8642"; // HiveMQ password
-const char* mqttTopicSwitch = "testtopic/temp/outTopic/switch"; // Topic to publish switch state
+const char* mqttServer = "xyz";
+const int mqttPort = xyz;               // Secure TLS/SSL port
+const char* mqttUser = "xyz";        // HiveMQ username
+const char* mqttPassword = "xyz"; // HiveMQ password
+const char* mqttTopicSwitch = "xyz"; // Topic to publish switch state
 
 WiFiClientSecure espClient;
 PubSubClient client(espClient);
