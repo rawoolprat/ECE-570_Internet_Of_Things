@@ -3,17 +3,17 @@ import mysql.connector
 from datetime import datetime
 
 # MQTT Broker Configuration
-BROKER_URL = "1bd4a0df136c4f1592d4e1c2b9963a12.s1.eu.hivemq.cloud"
-BROKER_PORT = 8884
-MQTT_USER = "rawprat"
-MQTT_PASSWORD = "Frozen8642"
-TOPIC = "testtopic/temp/outTopic/potvalue"
+BROKER_URL = "xyz"
+BROKER_PORT = xyz
+MQTT_USER = "xyz"
+MQTT_PASSWORD = "xyz"
+TOPIC = "xyz"
 
 # Database Configuration
-HOST = "srv1567.hstgr.io"
-USER = "u411807168_pratiksha"
-PASSWORD = "Biotin@282019"
-DATABASE = "u411807168_IOT"
+HOST = "xyz"
+USER = "xyz"
+PASSWORD = "xyz"
+DATABASE = "xyz"
 
 # Global variable for database connection
 db_connection = None
